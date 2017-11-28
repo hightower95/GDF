@@ -1,0 +1,49 @@
+// ============================================================================================
+// Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
+
+// Misc - Custom Scripts
+debriefing = 1;					// Force debriefing screen.
+disabledAI = 1;					// Disable AI
+allowFunctionsLog = 1;			// Allow log to RPT
+
+corpseManagerMode = 1;			// All bodies will be removed
+corpseLimit = 30;				// ...if totalling more than x
+corpseRemovalMinTime = 60;		// ...if present for over x secs
+wreckManagerMode = 1;			// All wrecks will be removed
+
+// HEADER/SPLASH SCREEN/MISSION INFO
+#include "briefing\mInfo.hpp"
+
+// RESPAWN
+respawn = 3;
+respawnDelay = 999999999;
+//respawnDialog = 0;
+respawnOnStart = -1;
+respawnTemplates[] = {};
+
+// PARAMETERS
+class Params
+{
+    #include "config\params.hpp"
+};
+
+// DEBREIF
+class CfgDebriefing
+{
+	#include "config\endings.hpp"
+};
+
+// FUNCTIONS
+class CfgFunctions
+{
+    #include "config\functions.hpp"
+    #include "loadout\functions.hpp"
+    #include "f\functions.hpp"
+    
+};
+
+// NOTIFICATIONS
+class CfgNotifications
+{
+    #include "f\notifications.hpp"
+};
