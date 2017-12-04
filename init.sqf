@@ -44,11 +44,6 @@ if isServer then {
 };
 // ====================================================================================
 // CLIENT ONLY SCRIPTS - Typically controlled via MISSION PARAMETERS.
-if hasInterface then {
-	execVM "f\map\fn_drawAO.sqf";
-	execVM "f\briefing\fn_initBriefing.sqf";
-};
-
 if hasInterface then { 
 	if isMultiplayer then { 
 			enableSaving [false, false];			// Disable Saving
@@ -56,7 +51,7 @@ if hasInterface then {
 			player setSpeaker "NoVoice";
 	};
 	
-	if (![] call f_fnc_detectACE) then {
+	if (!([] call f_fnc_detectACE)) then {
 		// [] spawn f_fnc_earplugs;
 		// [] call f_fnc_showPlayerNametag;
 		// Group map markers
@@ -64,7 +59,7 @@ if hasInterface then {
 		// earplugs, player name tag hud, group hud tag.
 	};
 
-	if([] call f_fnc_detectTFAR) then {
+	if(([] call f_fnc_detectTFAR)) then {
 		[] call f_fnc_initTFAR; // Edit config\modConfig\tfar.hpp
 	};
 
@@ -78,7 +73,8 @@ if hasInterface then {
 	// [] call f_group_assignFTColours;
 	// Todo - show where FT is on the map (little triangles)
 	// [] 
-
+	execVM "f\map\fn_drawAO.sqf";
+	execVM "f\briefing\fn_initBriefing.sqf";
 	// TODO: but better- can this be done on the server?
 	// [] call f_fnc_createJIPFlag; // requires a marker called 'respawn_' + side (e.g. respawn_west, respawn_east, respawn_guer)
 	// [] spawn f_fnc_thirdPersonRestrict;

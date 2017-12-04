@@ -13,13 +13,14 @@ wreckManagerMode = 1;			// All wrecks will be removed
 
 // HEADER/SPLASH SCREEN/MISSION INFO
 #include "briefing\mInfo.hpp"
-
 // RESPAWN
 respawn = 3;
 respawnDelay = 999999999;
 //respawnDialog = 0;
 respawnOnStart = -1;
 respawnTemplates[] = {};
+enableDebugConsole = 1;
+//enableDebugConsole[] = {"76561198015849034"};
 
 // PARAMETERS
 class Params
