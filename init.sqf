@@ -1,5 +1,9 @@
 // Full Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
 waitUntil { isServer || !isNull player };
+// ======================================
+// README:
+// Before you think you can change everything from 'execVM' to 'call' or 'spawn'
+// https://forums.bistudio.com/forums/topic/115016-call-execvm-and-spawn-which-and-when/
 // ====================================================================================
 // MISSION SPECIFIC SCRIPTS AND VARIABLES
 if(!isDedicated) then {
@@ -7,11 +11,8 @@ if(!isDedicated) then {
 };
 // ====================================================================================
 // SHARED SCRIPTS - Both client and server
-gd_param_safeStart = true;
-[gd_param_safeStart] call f_fnc_enableSafeStart; 	// F3 - Safe Start
-
-GD_MOD_ACE_Enabled = [] call f_fnc_detectACE;
-GD_MOD_TFAR_Enabled = [] call f_fnc_detectTFAR;
+gd_param_safeStart = true; //todo :move to config file
+[gd_param_safeStart] spawn f_fnc_enableSafeStart; 	// F3 - Safe Start
 //====================================================================================
 // SERVER ONLY SCRIPTS!
 if isServer then {
@@ -27,8 +28,8 @@ if isServer then {
 	// Will write a debug line to the server log file every 30 seconds. Can be handed for troubleshooting
 	// [] execVM "f\misc\f_stayInVehicle.sqf"; 			// Zeus - Stubborn Crew
 	// [] spawn {
-		// sleep 0.1;
-		// {if (_x isKindOf "Man" && !(_x getVariable["BIS_hvt_keepSimulationEnabled",false])) then {deleteVehicle _x}} forEach allDead;
+	// 	sleep 0.1;
+	// 	{if (_x isKindOf "Man" && !(_x getVariable["BIS_hvt_keepSimulationEnabled",false])) then {deleteVehicle _x}} forEach allDead;
 	// };
 	[] spawn {
 		sleep 1;
@@ -39,10 +40,15 @@ if isServer then {
 		};
 	};
 	// LEAVE! This lets other scripts know that the server has completed its initialization
-	f_var_missionLoaded = true; publicVariable "f_var_missionLoaded";
+	missionNamespace setVariable ["f_var_missionLoaded", true, true];
 };
 // ====================================================================================
 // CLIENT ONLY SCRIPTS - Typically controlled via MISSION PARAMETERS.
+if hasInterface then {
+	execVM "f\map\fn_drawAO.sqf";
+	execVM "f\briefing\fn_initBriefing.sqf";
+};
+
 if hasInterface then { 
 	if isMultiplayer then { 
 			enableSaving [false, false];			// Disable Saving
@@ -50,15 +56,15 @@ if hasInterface then {
 			player setSpeaker "NoVoice";
 	};
 	
-	if (!GD_MOD_ACE_Enabled) then {
-		[] call f_fnc_earplugs;
+	if (![] call f_fnc_detectACE) then {
+		// [] spawn f_fnc_earplugs;
 		// [] call f_fnc_showPlayerNametag;
 		// Group map markers
 		// [] execVM "f\groupMarkers\f_setLocGroupMkr.sqf";				// F3 - Group Markers
 		// earplugs, player name tag hud, group hud tag.
 	};
 
-	if(GD_MOD_TFAR_Enabled) then {
+	if([] call f_fnc_detectTFAR) then {
 		[] call f_fnc_initTFAR; // Edit config\modConfig\tfar.hpp
 	};
 
@@ -68,8 +74,6 @@ if hasInterface then {
 			Add loadout options
 			Add orbat
 	*/
-	[] call f_fnc_initBriefing;
-
 	// Todo - I know ace does this, but saves time. 
 	// [] call f_group_assignFTColours;
 	// Todo - show where FT is on the map (little triangles)
@@ -77,10 +81,8 @@ if hasInterface then {
 
 	// TODO: but better- can this be done on the server?
 	// [] call f_fnc_createJIPFlag; // requires a marker called 'respawn_' + side (e.g. respawn_west, respawn_east, respawn_guer)
-
-	[] call f_fnc_drawAO; // requires a marker with name "AO_Map_Marker". (use a square to cover area to display)
-	[] call f_fnc_thirdPersonRestrict;
-	[] call f_fnc_initCasualtyWatcher;
+	// [] spawn f_fnc_thirdPersonRestrict;
+	// [] spawn f_fnc_initCasualtyWatcher;
 
 	// ====================================================================================
 	// CLIENT INTRO

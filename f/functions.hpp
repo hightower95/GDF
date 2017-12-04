@@ -15,11 +15,6 @@ class F
 		class casualtyReceiver{};
 		class initCasualtyWatcher{};
 	};
-	class briefing 
-	{
-		file = "f\briefing";
-		class initBriefing{preInit = 1;};
-	};
 	class common
 	{
 		file = "f\common";
@@ -57,7 +52,7 @@ class F
 	class thirdperson 
 	{
 		file = "f\thirdPerson";
-		class thirdPersonRestrict{postInit=1;preInit=0;};
+		class thirdPersonRestrict{};
 	};
 	class tfar 
 	{

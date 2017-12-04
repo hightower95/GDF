@@ -5,6 +5,7 @@
 //      while the client waits, sets units invincibility and displays hints, then disables it.
 
 //Setup the variables
+// todo: move this parameter into a configuration file
 waitUntil{!isNil "gd_param_safeStart"};
 if(gd_param_safeStart) then {
 	if(time < 1) then { // If JIP - dont worry about safe start

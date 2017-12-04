@@ -11,12 +11,13 @@ class Header
 	// Seize	|	Seize a location
 	// Defend	|	Defend a location
 	gameType = Coop;
-	// minPlayers = 1;
-	// maxPlayers = 10;
+	
+	//minPlayers = 1;
+	//maxPlayers = 20;
 };
 
-onLoadName = "A mission";
-onLoadMission = "To be added";
+//onLoadName = "A mission";
+onLoadMission = "Mission Name tbd.";
 author = "Generally Dangerous";
 //overviewPicture = "mission\loadLogo.jpg";
-overviewText = "";
+overviewText = "...";

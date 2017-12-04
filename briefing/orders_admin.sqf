@@ -47,15 +47,6 @@ Debug Check</execute></font><br/>";
 // SAFE START SECTION
 _briefing = _briefing + "
 <br/><font size='18' color='#FF7F00'>SAFE START CONTROL</font><br/>
-<font color='#66B2FF'><execute expression=""f_param_safe_start = f_param_safe_start + 1; publicVariable 'f_param_safe_start'; hintSilent format ['Mission Timer: %1',f_param_safe_start];"">
-Increase Safe Start timer by 1 minute</execute></font><br/>
-
-<font color='#66B2FF'><execute expression=""f_param_safe_start = f_param_safe_start - 1; publicVariable 'f_param_safe_start'; hintSilent format ['Mission Timer: %1',f_param_safe_start];"">
-Decrease Safe Start timer by 1 minute</execute></font><br/>
-
-<font color='#66B2FF'><execute expression=""[[[],'f\safeStart\f_safeStart.sqf'],'BIS_fnc_execVM',true] call BIS_fnc_MP; hintSilent 'Safe Start Running!';"">
-Begin Safe Start timer</execute></font><br/>
-
 <font color='#66B2FF'><execute expression=""f_param_safe_start = -1; publicVariable 'f_param_safe_start';
 ['SafeStartMissionStarting',['Safe Start Ended!']] remoteExec ['bis_fnc_showNotification',0];
 [false] remoteExec ['f_fnc_safety',0];

@@ -16,7 +16,7 @@
 	class f_param_farooq_modifier
 	{
 			title = "Damage Taken Modifier (farooq)";
-			values[] = {0,35,67,84}; // Percentages (negatives are supported)
+			values[] = {0,35,67,84}; // Percentages (negatives are supported - which increases the damage you take)
 			texts[] = {"Off","Light (35%)","Heavy(67%)","Massive(84%)"};
 			default = 0;
 	};
@@ -40,7 +40,7 @@
 		title = "Weather";
 		values[] = {0,1,2,3,4,5,6};
 		texts[] = {"Mission Default","Calm","Light Cloud","Overcast","Rain","Storm","Random"};
-		default = 2;
+		default = 0;
 		function = "f_fnc_SetWeather";			// This function is called to apply the values
  		isGlobal = 0;						// Execute this only on the server
 	};
@@ -49,7 +49,7 @@
 		title = "Fog";
 		values[] = {0,1,2,3,4};
 		texts[] = {"Mission Default","None","Light","Heavy","Random"};
-		default = 2;
+		default = 0;
 		function = "f_fnc_SetFog";			// This function is called to apply the values
 		isGlobal = 0;						// Execute this only on the server
 	};

@@ -1,3 +1,5 @@
+// Class containing a list of all scripted functions and commands which can be remotely executed by BIS_fnc_MP / remoteExec / remoteExecCall on server or client machines. Can be defined in Config.cpp or in campaign's or mission's Description.ext. The most local variant is used. See also CfgRemoteExecCommands.
+
 class Commands {
 	// Can target anyone, don't allow to jip
 	class diag_log { allowedTargets=0; }; 					
@@ -30,3 +32,7 @@ class Functions {
 	class f_fnc_mapClickTeleportGroup { allowedTargets=0; };	// fn_mapClickTeleportUnit.sqf
 	
 };
+//remoteexec.txt
+// some advice regarding the above : https://community.bistudio.com/wiki/CfgRemoteExec
+// http://opendayz.net/threads/a-guide-to-battleye-filters.21066/
+// the above may be related to Battle Eye filters?

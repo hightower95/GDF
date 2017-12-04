@@ -1,9 +1,9 @@
 
-if (!hasInterface) exitWith {};
-// if (!isDedicated && (isNull player)) then {waitUntil {!isNull player};};
+// if (!hasInterface) exitWith {};
+if (!isDedicated && (isNull player)) then {waitUntil {!isNull player};};
 
 // Wait until server has set parameters.
-// waitUntil{!(isNil "f_var_setParams")};
+waitUntil{!(isNil "f_var_setParams")};
 
 // ====================================================================================
 // DECLARE VARIABLES AND FUNCTIONS
