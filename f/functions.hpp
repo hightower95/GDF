@@ -54,6 +54,11 @@ class F
 		file = "f\thirdPerson";
 		class thirdPersonRestrict{};
 	};
+	class respawn 
+	{
+		file = "f\respawn";
+		class teleportPlayer{};
+	};
 	class tfar 
 	{
 		file = "f\tfar";
