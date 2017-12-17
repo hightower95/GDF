@@ -1,5 +1,5 @@
 
-if(!server) exitWith {};
+if(!isServer) exitWith {};
 
 _spawnFlag = true;
 
