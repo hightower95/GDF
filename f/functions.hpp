@@ -25,6 +25,11 @@ class F
 		class mpEnd{};
 		class mpEndReceiver{};
 	};
+	class debug
+	{
+		file = "f\debug";
+		class logIssue{};
+	};
 	class group
 	{
 		file = "f\group";
