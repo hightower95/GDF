@@ -14,8 +14,7 @@ private ["_year","_month","_day","_transition","_hour","_minute","_time"];
 
 // f_var_timeOfDay is also used to set clear weather at night for SERVER.
 if (_timeOfDay == 0) exitWith {
-	f_var_timeOfDay = daytime;
-	publicVariable "f_var_timeOfDay";
+	missionNamespace setVariable ["f_var_timeOfDay", daytime, true];
 };
 
 // SET DEFAULT VALUES

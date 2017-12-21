@@ -58,7 +58,7 @@
 		title = "Time of Day";
 		values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};
 		texts[] = {"Mission Default","1hr to First Light","30m to First Light","First Light","30m after First Light","Morning","Late Morning","Noon","Afternoon","1hr to Last Light","30m to Last Light","Last Light","Night","Midnight","Random"};
-		default = 14;
+		default = 0;
 		function = "f_fnc_setTime";
 		isGlobal = 0;
 	};
