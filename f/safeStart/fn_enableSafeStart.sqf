@@ -7,8 +7,9 @@
 //Setup the variables
 // todo: move this parameter into a configuration file
 waitUntil{!isNil "gd_param_safeStart"};
+gd_param_safeStart = true;
 if(gd_param_safeStart) then {
-	if(time < 1) then { // If JIP - dont worry about safe start
+	if(time < 60) then { // If JIP - dont worry about safe start
 		f_param_safe_start = 1; // 1 minute
 	}; 	
 } else {

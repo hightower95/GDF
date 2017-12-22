@@ -11,8 +11,7 @@ if(!isDedicated) then {
 };
 // ====================================================================================
 // SHARED SCRIPTS - Both client and server
-gd_param_safeStart = true; //todo :move to config file
-[gd_param_safeStart] spawn f_fnc_enableSafeStart; 	// F3 - Safe Start
+[] execVM "f\safeStart\fn_enableSafeStart.sqf";
 //====================================================================================
 // SERVER ONLY SCRIPTS!
 if isServer then {
