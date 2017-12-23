@@ -64,7 +64,22 @@ _equipment = [_role, _faction, _modifiers] call loadout_fnc_getEquipment;
 
 _equipment params ["_helmet", "_fatigues", "_vest", "_backpack", "_items"];
 
+// somehow:
 
+_weaponOptions
+_opticOptions
+_magazineCount
+_smokeCount
+
+_basicMedicalStuff = [];
+
+// What I think I want to get to is a set of functions exposed in the briefing.
+// You can change the sight there or even weapon system and it does something like 
+// [player, player_role, affected_roles, previous, next] call BIS_fnc_MP - to the server.
+// The server then sends:
+// [affected_role, previous, next] call BIS_fnc_MP (loadout_fnc_loadoutUpdateReceiver)
+// I guess this means anyone could broadcast an update to anyone.
+// The server may need to alter vehicles.
 
 // configProperties unitClassName 
 // 'dlc'
