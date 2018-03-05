@@ -9,9 +9,11 @@
 waitUntil{!isNil "gd_param_safeStart"};
 gd_param_safeStart = true;
 if(gd_param_safeStart) then {
-	if(time < 60) then { // If JIP - dont worry about safe start
+	if(serverTime < 60) then { // If JIP - dont worry about safe start
 		f_param_safe_start = 1; // 1 minute
-	}; 	
+	} else {
+		f_param_safe_start = 0;
+	};
 } else {
 	f_param_safe_start = 0;
 };
