@@ -1,7 +1,7 @@
 // [QGVAR(setUnconscious), DFUNC(setUnconscious)] call CBA_fnc_addEventHandler;
 
 if(!hasInterface) exitWith {};
-
+GD_MOD_ACE_Enabled = true;
 if(GD_MOD_ACE_Enabled) then {
 	["ace_unconscious", {
 		params ["_unit", "_isUnconscious"]; 

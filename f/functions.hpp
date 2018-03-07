@@ -14,6 +14,8 @@ class F
 		file = "f\casualtyCap";
 		class casualtyReceiver{};
 		class initCasualtyWatcher{};
+		class checkCasualtyLimit{};
+		class setCasualtyLimit{};
 	};
 	class common
 	{
