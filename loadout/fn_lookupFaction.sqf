@@ -1,22 +1,7 @@
 // ====================================================================================
-// Detect the faction of a unit. This is slightly guess work.
-// Sources:
-// 1. Check the configFile >> unit classname >> faction
-// 2. 
-// 3. The units side
-// Other config properties that might help:
-// 'dlc' - Except for the base game. Some mods use this well
-// 'hiddenSelections[]' - Uniforms can tell you more sometimes
-// items - 'linkedItems[]'
-// magazines - 'magazines[]'
-// 'uniformClass'
-// 'displayName'
-// 'author'
-// 'weapons'
-// 'side'
-
+//
 // Parameters:
-//  _searchTerm 'string' The unit that a faction is needed for (typically 'this')
+//  _searchTerm 'string' 
 //
 // Returns:
 // Faction <string> or nil if no faction found
@@ -31,7 +16,7 @@ _factionName = nil;
 
 GD_FACTIONS = [
 	//[ [Aliases] ,  Faction Useful Name],
-	[["USMC", "US-Wood"], "US-Wood"],
+	[["USMC", "US-Wood", "WEST_RHS", "WEST_RHS_WOOD"], "US-Wood"],
 	[["US-Army-D", "US-Desert"], "US-Desert"]
 ];
 
