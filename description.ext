@@ -48,3 +48,41 @@ class CfgNotifications
 {
     #include "f\notifications.hpp"
 };
+
+disableChannels[] = {
+	{
+		0,	// global chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	},
+    {
+		1,	// side chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	},
+    {
+		2,	// command chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	},
+    {
+		3,	// group chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	},
+    {
+		4,	// vehicle chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	},
+    {
+		5,	// direct chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	},
+    {
+		6,	// system chat ID
+		false,	// disable text chat
+		true	// disable voice chat
+	}
+};
