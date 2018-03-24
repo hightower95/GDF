@@ -32,13 +32,13 @@ if _spawnFlag then {
 			_flagObj = missionNamespace getVariable [_flagName, ""];
 
 			if (isNil _flagObj && _playersOfSide > 0) then {
-				_newFlagObj = _flagType createVehicleLocal [getMarkerPos _flagMarker select 0, (getMarkerPos _flagMarker select 1) - 5, 0];
+				_newFlagObj = _flagType createVehicle [getMarkerPos _flagMarker select 0, (getMarkerPos _flagMarker select 1) - 5, 0];
 				sleep 0.5;
 				
 				// Don't spawn on seabed.
 				if (underwater _newFlagObj) then {
 					_newFlagObj setPosASL [position _newFlagObj select 0,position _newFlagObj select 1,0];
-					_flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];
+					_flagStone = "Land_W_sharpStone_02" createVehicle [0,0,0];
 					_flagStone setPosASL [getMarkerPos _flagMarker select 0, (getMarkerPos _flagMarker select 1) - 5,-1];
 				};
 				missionNamespace setVariable [_flagName, _newFlagObj, true];
