@@ -75,6 +75,7 @@ if hasInterface then {
 	// [] 
 	[] execVM "f\map\fn_drawAO.sqf";
 	[] execVM "f\briefing\fn_initBriefing.sqf";
+	[] execVM "loadout\fn_assignLoadout.sqf";
 	// TODO: but better- can this be done on the server?
 	// [] call f_fnc_createJIPFlag; // requires a marker called 'respawn_' + side (e.g. respawn_west, respawn_east, respawn_guer)
 	// [] spawn f_fnc_thirdPersonRestrict;

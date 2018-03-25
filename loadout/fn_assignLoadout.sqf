@@ -31,47 +31,111 @@
 // Hopefully:
 // [this, nil, nil, ["fire-team-lead","no-night-vision","mg-assistant","spotter","at-assitant","at"]] call loadout_fnc_assignLoadout;
 // ====================================================================================
-params ["_unit", ["_role", "rifleman"], ["_faction", nil], ["_modifiers", []]];
+// params ["_unit", ["_role", "rifleman"], ["_faction", nil], ["_modifiers", []]];
+// waitUntil {(!isNull (findDisplay 46))};
+// waitUntil {alive player};
+waitUntil {!isNull player};
 
-_unitClass = typeOf _unit;
+_bandage = "ACE_fieldDressing";
+_morphine = "ACE_morphine";
+_epi = "ACE_epinephrine";
+_blood250 = "ACE_bloodIV_250";
+_blood500 = "ACE_bloodIV_500";
+_blood1000 = "ACE_bloodIV_1000";
+_earplugs = "ACE_earplugs";
 
-// If no role is provided - autodetect. If one is provided, check it is valid
-_roleProvided = !isNil _role;
-if(!_roleProvided) then {
-	_role = [_unit] call loadout_fnc_autoDetectRole;
-} else {
-	_roleIsValid = [_role] call loadout_fnc_validateRole;
-	if(!_roleIsValid) then {
-		_role = [_unit] call loadout_fnc_autoDetectRole;
+player removeItems _bandage; 
+player removeItems _morphine; 
+player removeItems _epi; 
+player removeItems _earplugs; 
+
+_medical_loadout = [
+	[_bandage, 10, {true}],
+	[_bandage, 40, {player getUnitTrait "Medic"}],
+	[_morphine, 4, {true}],
+	[_morphine, 25, {player getUnitTrait "Medic"}],
+	[_epi, 1, {true}],
+	[_epi, 20, {player getUnitTrait "Medic"}],
+	[_blood250, 1, {true}],
+	[_blood1000, 4, {player getUnitTrait "Medic"}]
+];
+
+player addItem _earplugs;
+
+if (leader group player == player) then {
+	player removeItem "ItemGPS";
+	player addItem "ItemGPS";
+	player assignItem "ItemGPS";	
+};
+
+{
+	_x params ["_className", "_quantity", "_test"];
+	if([] call _test) then {
+		for "_i" from 0 to (_quantity-1) do {
+			player addItem _className;
+		};
+	};
+
+} forEach _medical_loadout;
+
+//["rhs_mag_30Rnd_556x45_Mk318_Stanag","rhs_mag_30Rnd_556x45_Mk318_Stanag","rhs_mag_30Rnd_556x45_Mk318_Stanag","rhs_mag_30Rnd_556x45_Mk318_Stanag","rhs_mag_30Rnd_556x45_Mk318_Stanag","rhs_mag_30Rnd_556x45_Mk318_Stanag","rhsusf_mag_17Rnd_9x19_FMJ","rhsusf_mag_17Rnd_9x19_FMJ","rhs_mag_an_m8hc","rhs_mag_mk84","rhs_mag_m67","rhs_mag_m67","Chemlight_red","Chemlight_red","Chemlight_red","Chemlight_red"]
+_mag = primaryWeaponMagazine player select 0; 
+_playerMags = magazines player; 
+_magCount = {_x == _mag} count _playerMags;
+
+_minimum_mags = 9;
+if(player getUnitTrait "Medic") then {
+	_minimum_mags = 7;
+};
+
+if(_magCount < _minimum_mags) then {
+	_mags_required = (_minimum_mags - _magCount);
+	for "_i" from 0 to (_mags_required-1) do {
+		player addMagazine _mag;
 	};
 };
 
-// If no faction is provided - autodetect. If one is provided, check it is valid
-_factionProvided = !isNil _faction;
-if(!_factionProvided) then {
-	// Faction could be specified within mission
-	_faction = [_unit] call loadout_fnc_autoDetectFaction;
-} else {
-	_factionIsValid = [_faction] call loadout_fnc_validateFaction;
-	if(!_factionIsValid) then {
-		_faction = [_unit] call loadout_fnc_autoDetectFaction;
-	};
-};
+// ["rhs_mag_30Rnd_556x45_M855_Stanag","rhs_mag_30Rnd_556x45_M855_Stanag_Tracer_Red","rhs_mag_30Rnd_556x45_M855_Stanag_Tracer_Green","rhs_mag_30Rnd_556x45_M855_Stanag_Tracer_Yellow","rhs_mag_30Rnd_556x45_M855_Stanag_Tracer_Orange","rhs_mag_30Rnd_556x45_M855A1_Stanag","rhs_mag_30Rnd_556x45_M855A1_Stanag_No_Tracer","rhs_mag_30Rnd_556x45_M855A1_Stanag_Tracer_Red","rhs_mag_30Rnd_556x45_M855A1_Stanag_Tracer_Green","rhs_mag_30Rnd_556x45_M855A1_Stanag_Tracer_Yellow","rhs_mag_30Rnd_556x45_M855A1_Stanag_Tracer_Orange","rhs_mag_30Rnd_556x45_Mk318_Stanag","rhs_mag_30Rnd_556x45_Mk262_Stanag","rhs_mag_30Rnd_556x45_M200_Stanag","30Rnd_556x45_Stanag","30Rnd_556x45_Stanag_Tracer_Red","30Rnd_556x45_Stanag_Tracer_Green","30Rnd_556x45_Stanag_Tracer_Yellow"]
 
-// _faction = getText (configFile >> "CfgVehicles" >> _unitClass >> "faction");
+// _unitClass = typeOf _unit;
 
-_equipment = [_role, _faction, _modifiers] call loadout_fnc_getEquipment;
+// // If no role is provided - autodetect. If one is provided, check it is valid
+// _roleProvided = !isNil _role;
+// if(!_roleProvided) then {
+// 	_role = [_unit] call loadout_fnc_autoDetectRole;
+// } else {
+// 	_roleIsValid = [_role] call loadout_fnc_validateRole;
+// 	if(!_roleIsValid) then {
+// 		_role = [_unit] call loadout_fnc_autoDetectRole;
+// 	};
+// };
 
-_equipment params ["_helmet", "_fatigues", "_vest", "_backpack", "_items"];
+// // If no faction is provided - autodetect. If one is provided, check it is valid
+// _factionProvided = !isNil _faction;
+// if(!_factionProvided) then {
+// 	// Faction could be specified within mission
+// 	_faction = [_unit] call loadout_fnc_autoDetectFaction;
+// } else {
+// 	_factionIsValid = [_faction] call loadout_fnc_validateFaction;
+// 	if(!_factionIsValid) then {
+// 		_faction = [_unit] call loadout_fnc_autoDetectFaction;
+// 	};
+// };
+
+// // _faction = getText (configFile >> "CfgVehicles" >> _unitClass >> "faction");
+
+// _equipment = [_role, _faction, _modifiers] call loadout_fnc_getEquipment;
+
+// _equipment params ["_helmet", "_fatigues", "_vest", "_backpack", "_items"];
 
 // somehow:
 
-_weaponOptions
-_opticOptions
-_magazineCount
-_smokeCount
+// _weaponOptions
+// _opticOptions
+// _magazineCount
+// _smokeCount
 
-_basicMedicalStuff = [];
+// _basicMedicalStuff = [];
 
 // What I think I want to get to is a set of functions exposed in the briefing.
 // You can change the sight there or even weapon system and it does something like 
@@ -99,3 +163,8 @@ _basicMedicalStuff = [];
 // 'side'
 
 // configfile >> "CfgVehicles" >> "rhsusf_army_ucp_rifleman_101st" >> "hiddenSelectionsTextures"
+
+// CBA_fnc_addItem
+// CBA_fnc_addItemCargo
+
+// addItemCargo
