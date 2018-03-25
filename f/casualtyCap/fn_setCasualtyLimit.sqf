@@ -23,7 +23,7 @@ _count_variable = format["%1_%2", _CASUALITY_COUNT_VAR_PREFIX, _side];
 _limit_variable = format["%1_%2", _CASUALITY_LIMIT_VAR_PREFIX, _side];
 
 if(_from_now) then {
-	_limit = missionNamespace getVariable [_count_variable, 0] + _limit;
+	_limit = (missionNamespace getVariable [_count_variable, 0]) + _limit;
 };
 
 missionNamespace setVariable [_limit_variable, _limit, true];
