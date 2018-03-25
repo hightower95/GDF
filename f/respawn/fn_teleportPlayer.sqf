@@ -18,8 +18,8 @@ if(_aceDetected) then {
 	} else {
 		_refUnitArray = [];
 		// Find other alive/conscious units in the group.
-		{ if (alive _x && (![_x] call _isUnconscious)) then { _refUnitArray pushBack _x; }; 
-		} forEach (units group player) - [player];
+		{ if (alive _x && (!([_x] call _isUnconscious))) then { _refUnitArray pushBack _x; }; 
+		} forEach ((units group player) - [player]);
 		
 		/*If there are no units alive and conscious we'll look for the next best thing
 		It would be better if in here it would find say the CO / Alpha 
