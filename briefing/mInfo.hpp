@@ -16,8 +16,12 @@ class Header
 	//maxPlayers = 20;
 };
 
-//onLoadName = "A mission";
-onLoadMission = "Mission Name tbd.";
+// Text at the top
+onLoadName = "Devils Rock";
+//briefingName = "Devils Rock";
+
+// Text that appears at the bottom
+onLoadMission = "'Does anyone know the range?' - Professional Shouter 2018";
 author = "Generally Dangerous";
 //overviewPicture = "mission\loadLogo.jpg";
 overviewText = "...";
