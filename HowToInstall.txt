@@ -1,0 +1,31 @@
+To make it easy to keep up to date with the latest framework changes do the following:
+
+Leave everything as default, but:
+You want git added to path, and available via right click.
+
+https://git-scm.com/download/win
+
+
+Inside this folder right click in an empty spot and click on 'git bash here'
+A terminal window will open.
+
+
+Type 'git init' press enter.
+
+Type 'git remote add origin https://github.com/hightower95/GDF.git'
+
+Type 'git remote -v'.
+The screen should output:
+origin  https://github.com/hightower95/GDF.git (fetch)
+origin  https://github.com/hightower95/GDF.git (push)
+
+If it doesnt something has gone wrong. 
+
+If it does you have added the framework successfully.
+
+Now you may type 'git pull origin master'
+
+The framework will appear as if by magic.
+
+To update the framework type 'git pull origin master'
+
