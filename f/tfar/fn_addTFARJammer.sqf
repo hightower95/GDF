@@ -28,31 +28,29 @@ if isNil _jammer_object exitWith {
 _min_interference = 5;
 // Strength of the jammer antenna. Calculations assume this is not variable - instead they calculate the interference for the closest jammer because this is less computationally expensive. (More than 1 jammer in a mission is a bit special)
 _strength = 1000;
+// Strength (S), min/Strength (m/S). Compute in advance
+_jammer_params = [_strength, _min_interference / _strength];
 
 /*Attach jammer variables to object*/
 _jammer_object setVariable ["isTFARJammer", true];
 _jammer_object setVariable ["jammer_range", _range];
 _jammer_object setVariable ["jammer_active", true];
+_jammer_object setVariable ["jammer_params", _jammer_params];
 
 _jammer_object addEventHandler ["killed", {[_this select 0] call f_fnc_removeTFARJammer;}];
 
-// Strength (S), min/Strength (m/S). Compute in advance
-_jammer_params = [_strength, _min_interference / _strength];
-_jammer_object setVariable ["jammer_params", _jammer_params];
-
-// Find existing jammers
+// Add jammer to existing jammers
 _jammers = missionNamespace getVariable ["f_TFAR_Jammers", []];
 _jammer_count = count _jammers;
 _jammers = _jammers + _jammer_object;
 missionNamespace setVariable ["f_TFAR_Jammers", _jammers, true];
 
-// If there are already jammers existing we can assume the script for jammers
-// is already running
+// If there are already jammers existing we can assume the script for jammers is already running
 if(_jammer_count > 0) exitWith {
 	diag_log "addTFARJammer: Watcher not spawned as TFAR jammer count > 0";
 };
 
-// run locally
+// Start jammer watcher script. Runs until no active jammers
 _jammer_handler = [] spawn {
 	_running = true;
 	_debug = missionNamespace getVariable ["f_TFAR_Jammer_debug", false];
@@ -69,11 +67,15 @@ _jammer_handler = [] spawn {
 	while(_running) do {		
 		// 1. Find the active jammers
 		_jammers = missionNamespace getVariable ["f_TFAR_Jammers", _jammers, []];
+		// If there are no jammers this is the last iteration
+		if(count _jammers == 0) then {
+			_running = false;
+		};
+
 		_activeJammers = _jammers select {_x getVariable ["jammer_active", false]};
 
 		if(count _activeJammers == 0) then {
 			["No Active Jammers"] call _debug_log;
-			_running = false;
 		};
 
 		// 2. Find the closest active jammer to the player.
