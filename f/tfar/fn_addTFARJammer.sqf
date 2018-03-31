@@ -20,8 +20,9 @@
 
 params ["_jammer_object", ["_range",-1]];
 
-if isNil _jammer_object exitWith {
+if (isNil _jammer_object) exitWith {
 	diag_log "addTFARJammer.sqf: Jammer object none";
+	systemChat "addTFARJammer.sqf: Jammer object none";
 };
 
 _debug = missionNamespace getVariable ["f_TFAR_Jammer_debug", false];
@@ -82,7 +83,7 @@ _jammer_handler = [] spawn {
 		[_text] remoteExecCall ["BIS_fnc_log", 2];
 	};
 	
-	while(_running) do {		
+	while{_running} do {		
 		// 1. Find the active jammers
 		_jammers = missionNamespace getVariable ["f_TFAR_Jammers", _jammers, []];
 		// If there are no jammers this is the last iteration
@@ -142,7 +143,7 @@ _jammer_handler = [] spawn {
 				=S*(K^(D/R))
 				where S=Strength, m=Min Interference, D=Player to jammer distance, R=Jammer range
 				*/
-				_Dist = MIN(_distance, _jammer_range);
+				_Dist = _distance MIN _jammer_range;
 				
 				// This is an exponential decrease. (Its not physically accurate but is more understandable to a mission maker - as it forces an accepted minimum interference at the edge of the jammer range)
 				_interference = _strength * (_K ^ (_Dist / _jammer_range));
@@ -156,7 +157,7 @@ _jammer_handler = [] spawn {
 		// Reduce the distance a player is able to send
 		player setVariable ["tf_sendingDistanceMultiplicator", (1/_interference)];
 
-		if(_debug) {
+		if(_debug) then {
 			deleteMarker "InterferenceMarker";
 			//Position Marker
 			_debugMarker2 = createmarker ["InterferenceMarker", position player];
