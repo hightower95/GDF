@@ -30,9 +30,9 @@ if (isNull _jammer_object) exitWith {
 _debug = missionNamespace getVariable ["f_TFAR_Jammer_debug", false];
 
 // Min interference is the interference at the 'max range' of the antenna. TFAR default is 1.0
-_min_interference = 5;
+_min_interference = missionNamespace getVariable ["jammer_min_interference", 5];
 // Strength of the jammer antenna. Calculations assume this is not variable - instead they calculate the interference for the closest jammer because this is less computationally expensive. (More than 1 jammer in a mission is a bit special)
-_strength = 1000;
+_strength = missionNamespace getVariable ["jammer_strength", 1000];
 // Strength (S), min/Strength (m/S). Compute in advance
 _jammer_params = [_strength, _min_interference/_strength];
 
@@ -46,17 +46,24 @@ _jammer_object addEventHandler ["killed", {[_this select 0] call f_fnc_removeTFA
 
 if(_debug) then {
 	// Mark Area
-	_jammer_marker = createmarker ["JAMMER_DebugMarker", position _jammer_object];
-	_debugMarker setMarkerShape "ELLIPSE";
-	_debugMarker setMarkerSize [_range/2, _range/2];
+	_jammer_marker = createmarkerLocal ["JAMMER_DebugMarker", position _jammer_object];
+	_jammer_marker setMarkerShape "ELLIPSE";
+	_jammer_marker setMarkerSize [_range, _range];
+	_jammer_marker setMarkerBrush "SOLID";
+	_jammer_marker setMarkerAlpha 0.3;
+	// createMarker ["marker1", [5025,5903]]; 
+	// bob setMarkerShape "ELLIPSE"; 
+	// "marker1" setMarkerColor "ColorGreen"; 
+	// "marker1" setMarkerSize [100, 100]; 
+	// "marker1" setMarkerBrush "SOLID";
 
 	// Mark position
-	_debugMarker2 = createmarker ["JAMMER_DebugMarker2", position _jammer_object];
+	_debugMarker2 = createmarkerLocal ["JAMMER_DebugMarker2", position _jammer_object];
 	_debugMarker2 setMarkerShape "ICON";
 	_debugMarker2 setMarkerType "mil_dot";
 	_text = format ["S:%1", _strength];
 	_debugMarker2 setMarkerText _text;
-	["addTFARJammer: Markers Initialized"] call BIS_fnc_log;
+	"addTFARJammer: Markers Initialized" call BIS_fnc_log;
 	systemChat "Marker Initialized";
 };
 
@@ -166,8 +173,16 @@ _jammer_handler = [] spawn {
 			_debugMarker2 = createmarker ["InterferenceMarker", position player];
 			_debugMarker2 setMarkerShape "ICON";
 			_debugMarker2 setMarkerType "mil_triangle";
-			_debugMarker2 setMarkerColor "ColorRed";
+			if(!isNull _closest_jammer) then {
+				_debugMarker2 setMarkerColor "ColorRed";
+				_debugMarker2 setMarkerDir (player getDir _closest_jammer);
+			};
 			_debugMarker2 setMarkerText format ["%1", _interference];
+
+			deleteMarker "InterferenceLine";
+			_inteferenceLineMarker = createMarker ["InterferenceLine", position player];
+			_inteferenceLineMarker setMarkerShape "POLYLINE";
+			_inteferenceLineMarker 
 		};
 
 		// 5. Wait before running again.
