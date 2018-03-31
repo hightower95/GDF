@@ -24,6 +24,8 @@ if isNil _jammer_object exitWith {
 	diag_log "addTFARJammer.sqf: Jammer object none";
 };
 
+_debug = missionNamespace getVariable ["f_TFAR_Jammer_debug", false];
+
 // Min interference is the interference at the 'max range' of the antenna. TFAR default is 1.0
 _min_interference = 5;
 // Strength of the jammer antenna. Calculations assume this is not variable - instead they calculate the interference for the closest jammer because this is less computationally expensive. (More than 1 jammer in a mission is a bit special)
@@ -38,6 +40,22 @@ _jammer_object setVariable ["jammer_active", true];
 _jammer_object setVariable ["jammer_params", _jammer_params];
 
 _jammer_object addEventHandler ["killed", {[_this select 0] call f_fnc_removeTFARJammer;}];
+
+if(_debug) then {
+	// Mark Area
+	_jammer_marker = createmarker ["JAMMER_DebugMarker", position _jammer_object];
+	_debugMarker setMarkerShape "ELLIPSE";
+	_debugMarker setMarkerSize [_range, _range];
+
+	// Mark position
+	_debugMarker2 = createmarker ["JAMMER_DebugMarker2", position _jammer_object];
+	_debugMarker2 setMarkerShape "ICON";
+	_debugMarker2 setMarkerType "mil_dot";
+	_text = format ["S:%1", _strength];
+	_debugMarker2 setMarkerText _text;
+	["addTFARJammer: Markers Initialized"] call BIS_fnc_log;
+	systemChat "Marker Initialized";
+};
 
 // Add jammer to existing jammers
 _jammers = missionNamespace getVariable ["f_TFAR_Jammers", []];
@@ -69,6 +87,7 @@ _jammer_handler = [] spawn {
 		_jammers = missionNamespace getVariable ["f_TFAR_Jammers", _jammers, []];
 		// If there are no jammers this is the last iteration
 		if(count _jammers == 0) then {
+			["No jammers left"] call _debug_log;
 			_running = false;
 		};
 
@@ -137,6 +156,16 @@ _jammer_handler = [] spawn {
 		// Reduce the distance a player is able to send
 		player setVariable ["tf_sendingDistanceMultiplicator", (1/_interference)];
 
+		if(_debug) {
+			deleteMarker "InterferenceMarker";
+			//Position Marker
+			_debugMarker2 = createmarker ["InterferenceMarker", position player];
+			_debugMarker2 setMarkerShape "ICON";
+			_debugMarker2 setMarkerType "mil_triangle";
+			_debugMarker2 setMarkerColor "ColorRed";
+			_debugMarker2 setMarkerText format ["%1", _interference];
+		};
+
 		// 5. Wait before running again.
 		// This is needed because the player or the jammer will move
 		sleep 1;
@@ -144,3 +173,5 @@ _jammer_handler = [] spawn {
 
 	["Watcher completed"] call _debug_log;
 };
+
+missionNamespace setVariable ["jammer_handler", _jammer_handler];
