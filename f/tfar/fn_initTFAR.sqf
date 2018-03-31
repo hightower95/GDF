@@ -35,5 +35,7 @@ if (!isNil "CBA_settings_fnc_set") then {
 };
 
 
+missionNamespace setVariable ["f_TFAR_Jammer_debug", true];
+
 
 
