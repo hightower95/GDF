@@ -20,7 +20,9 @@
 
 params ["_jammer_object", ["_range",-1]];
 
-if (isNil _jammer_object) exitWith {
+if(!hasInterface) exitWith {};
+
+if (isNull _jammer_object) exitWith {
 	diag_log "addTFARJammer.sqf: Jammer object none";
 	systemChat "addTFARJammer.sqf: Jammer object none";
 };
@@ -32,7 +34,7 @@ _min_interference = 5;
 // Strength of the jammer antenna. Calculations assume this is not variable - instead they calculate the interference for the closest jammer because this is less computationally expensive. (More than 1 jammer in a mission is a bit special)
 _strength = 1000;
 // Strength (S), min/Strength (m/S). Compute in advance
-_jammer_params = [_strength, _min_interference / _strength];
+_jammer_params = [_strength, _min_interference/_strength];
 
 /*Attach jammer variables to object*/
 _jammer_object setVariable ["isTFARJammer", true];
@@ -46,7 +48,7 @@ if(_debug) then {
 	// Mark Area
 	_jammer_marker = createmarker ["JAMMER_DebugMarker", position _jammer_object];
 	_debugMarker setMarkerShape "ELLIPSE";
-	_debugMarker setMarkerSize [_range, _range];
+	_debugMarker setMarkerSize [_range/2, _range/2];
 
 	// Mark position
 	_debugMarker2 = createmarker ["JAMMER_DebugMarker2", position _jammer_object];
@@ -61,8 +63,8 @@ if(_debug) then {
 // Add jammer to existing jammers
 _jammers = missionNamespace getVariable ["f_TFAR_Jammers", []];
 _jammer_count = count _jammers;
-_jammers = _jammers + _jammer_object;
-missionNamespace setVariable ["f_TFAR_Jammers", _jammers, true];
+_jammers = _jammers + [_jammer_object];
+missionNamespace setVariable ["f_TFAR_Jammers", _jammers];
 
 // If there are already jammers existing we can assume the script for jammers is already running
 if(_jammer_count > 0) exitWith {
@@ -76,16 +78,16 @@ _jammer_handler = [] spawn {
 	_debug_log = {
 		if(!(missionNamespace getVariable ["f_TFAR_Jammer_debug", false])) exitWith {}; 
 
-		_text = format ["Client: %1, MissionTime: %2 ServerTime: %3 addTFARJammer.sqf, %2", name player, time, serverTime, _this select 0]; 
-		if (name player == "Hightower") then {
+		_text = format ["%1::MiTime: %2, SeTime: %3, addTFARJammer.sqf:: %4", profileName, time, serverTime, _this select 0]; 
+		if (profileName == "Hightower") then {
 			_text call BIS_fnc_log;
 		};
-		[_text] remoteExecCall ["BIS_fnc_log", 2];
+		_text remoteExecCall ["BIS_fnc_log", 2];
 	};
 	
 	while{_running} do {		
 		// 1. Find the active jammers
-		_jammers = missionNamespace getVariable ["f_TFAR_Jammers", _jammers, []];
+		_jammers = missionNamespace getVariable ["f_TFAR_Jammers", []];
 		// If there are no jammers this is the last iteration
 		if(count _jammers == 0) then {
 			["No jammers left"] call _debug_log;
@@ -102,7 +104,7 @@ _jammer_handler = [] spawn {
 		_closest_jammer = objNull;
 		{
 			_jammer = _x;
-			_jammer_range = _jammer getVariable ["jammer_range"];
+			_jammer_range = _jammer getVariable "jammer_range";
 			
 			// '-1' is infinite range - so this jammer dominates.
 			if (_jammer_range == -1) exitWith {
@@ -123,17 +125,18 @@ _jammer_handler = [] spawn {
 		
 		} forEach _activeJammers;
 		
+		[format["Closest Jammer: %1", _closest_jammer]] call _debug_log;
 		// 3. Calculate interference
 		_interference = 1.0;
 		
-		if(_closest_jammer != objNull) then {
+		if(!isNull _closest_jammer) then {
 			_distance = player distance _closest_jammer;
-			_jammer_range = _closest_jammer getVariable ["jammer_range"];
+			_jammer_range = _closest_jammer getVariable "jammer_range";
 
-			[format["distance %1, range %2", _distance, _jammer_range]] call _debug_log;
 			if(_jammer_range < 0 or _distance <= _jammer_range) then {
-				_jammer_params = _closest_jammer getVariable ["jammer_params"];
+				_jammer_params = _closest_jammer getVariable "jammer_params";
 				_jammer_params params ["_strength", "_K"];
+				[format["Effective Jammer Detected: strength: %1, distance: %2, range: %3",_strength, _distance, _jammer_range]] call _debug_log;
 				/* Formula Derivation:
 				=STRENGTH * exp ( -SCALAR*(MIN(DISTANCE, RANGE)/RANGE)*(LN(MIN_INTER / STRENGTH)/-SCALAR))
 				=S*exp(-a*D/R*ln(m/S)/-a)

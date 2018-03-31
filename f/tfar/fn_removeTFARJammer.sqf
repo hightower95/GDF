@@ -21,7 +21,7 @@ params ["_object"];
 _debug_log = {
 	if(!(missionNamespace getVariable ["f_TFAR_Jammer_debug", false])) exitWith {}; 
 
-	_text = format ["Client: %1, MissionTime: %2 ServerTime: %3 removeTFARJammer.sqf, %2", name player, time, serverTime, _this select 0]; 
+	_text = format ["Client: %1, MissionTime: %2 ServerTime: %3 removeTFARJammer.sqf, %4", name player, time, serverTime, _this select 0]; 
 	if (name player == "Hightower") then {
 		_text call BIS_fnc_log;
 	};
@@ -32,7 +32,7 @@ _isJammer = _object getVariable ["isTFARJammer", false];
 
 if(!_isJammer) exitWith {
 	["object is not a jamer"] call _debug_log;
-}
+};
 _jammers = missionNamespace getVariable ["f_TFAR_Jammers", []];
 
 [format ["Pre-removal active jammers: %1", count _jammers]] call _debug_log;
