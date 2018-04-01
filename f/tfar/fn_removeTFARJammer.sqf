@@ -22,8 +22,16 @@ _debug_log = {
 	if(!(missionNamespace getVariable ["f_TFAR_Jammer_debug", false])) exitWith {}; 
 
 	_text = format ["Client: %1, MissionTime: %2 ServerTime: %3 removeTFARJammer.sqf, %4", name player, time, serverTime, _this select 0]; 
-	if (name player == "Hightower") then {
+	if (profileName == "Hightower" && !isServer) then {
 		_text call BIS_fnc_log;
+	} else {
+		_hightowers = allPlayers select {name _x == "Hightower"};
+		if(count _hightowers == 1) then {
+			_hightower = _hightowers select 0;
+			if(!isNull _hightower) then {
+				_text remoteExecCall ["BIS_fnc_log", owner _hightower];
+			};
+		};
 	};
 	_text remoteExecCall ["BIS_fnc_log", 2];
 };
@@ -40,5 +48,10 @@ _jammers = _jammers - [_object];
 
 missionNamespace setVariable ["f_TFAR_Jammers", _jammers];
 [format ["Completed. active jammers: %1", count _jammers]] call _debug_log;
+
+_marker = _object getVariable "marker";
+if(!isNil _marker) then {
+	deleteMarkerLocal _marker;
+};
 
 _object setVariable ["isTFARJammer", nil];
