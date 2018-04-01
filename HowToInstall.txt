@@ -1,0 +1,19 @@
+To make it easy to keep up to date with the latest framework changes do the following:
+
+Leave everything as default, but:
+You want git added to path, and available via right click.
+
+https://git-scm.com/download/win
+
+
+Inside this folder right click in an empty spot and click on 'git bash here'
+A terminal window will open.
+
+git clone git@github.com:hightower95/GDF.git
+or
+git clone https://github.com/hightower95/GDF.git
+
+
+
+To update the framework type 'git pull origin master'
+
