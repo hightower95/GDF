@@ -34,8 +34,11 @@ if (!isNil "CBA_settings_fnc_set") then {
 	[(call TFAR_fnc_activeSwRadio), _sw_radio_settings] call TFAR_fnc_setSwSettings;
 };
 
-
-missionNamespace setVariable ["f_TFAR_Jammer_debug", true];
-
+if(isNil {missionNamespace getVariable "f_TFAR_Jammer_debug"}) then {
+	missionNamespace setVariable ["f_TFAR_Jammer_debug", true];
+};
+if(isNil {missionNamespace getVariable "f_TFAR_Jammer_markers_visible"}) then {
+	missionNamespace setVariable ["f_TFAR_Jammer_markers_visible", true];
+};
 
 

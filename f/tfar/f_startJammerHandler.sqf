@@ -33,7 +33,6 @@ if(!isNull _jammer_handler) then {
 		};
 	}; 
 };
-
 if(!_start_jammer_handler) exitWith {};
 
 _jammer_loop_handler = {
@@ -61,7 +60,7 @@ _jammer_loop_handler = {
 	};
 
 	if(_debug) then {
-		systemChat "Jammer Handler Init";
+		systemChat "Jammer loop handler started";
 	};
 
 	while{_running} do {		
@@ -103,6 +102,31 @@ _jammer_loop_handler = {
 			};
 		
 		} forEach _activeJammers;
+
+		{
+			_jammer = _x;
+			if(!(_jammer getVariable "f_TFAR_Jammer_markers_visible")) exitWith {};
+			_mkr_area = _jammer getVariable "jammer_area_marker";
+			_range = _jammer getVariable "jammer_range";
+			// Doesnt matter if it exists or not.
+			deleteMarkerLocal _mkr_area;
+			// Mark Area
+			_mkr_area = createmarkerLocal [_mkr_area, position _jammer];
+			_mkr_area setMarkerShape "ELLIPSE";
+			_mkr_area setMarkerSize [_range, _range];
+			_mkr_area setMarkerBrush "SOLID";
+			_mkr_area setMarkerAlpha 0.3;
+
+			// Mark position
+			_mkr_point = _jammer getVariable "jammer_point_marker";
+			_strength = (_jammer getVariable "jammer_params") select 0;
+			deleteMarkerLocal _mkr_point;
+			_mkr_point = createmarkerLocal [_mkr_point, position _jammer];
+			_mkr_point setMarkerShape "ICON";
+			_mkr_point setMarkerType "mil_dot";
+			_text = format ["S:%1", _strength];
+			_mkr_point setMarkerText _text;
+		} forEach _activeJammers;
 		
 		[format["Closest Jammer: %1", _closest_jammer]] call _debug_log;
 		// 3. Calculate interference
@@ -116,19 +140,9 @@ _jammer_loop_handler = {
 				_jammer_params = _closest_jammer getVariable "jammer_params";
 				_jammer_params params ["_strength", "_K"];
 				[format["Effective Jammer Detected: strength: %1, distance: %2, range: %3",_strength, _distance, _jammer_range]] call _debug_log;
-				/* Formula Derivation:
-				=STRENGTH * exp ( -SCALAR*(MIN(DISTANCE, RANGE)/RANGE)*(LN(MIN_INTER / STRENGTH)/-SCALAR))
-				=S*exp(-a*D/R*ln(m/S)/-a)
-				=S*exp(D/R*ln(m/S))
-				=S*exp(ln(m/s ^ D/R))
-				=S*(m/s)^(D/R)
-				=S*(K^(D/R))
-				where S=Strength, m=Min Interference, D=Player to jammer distance, R=Jammer range
-				*/
-				_Dist = _distance MIN _jammer_range;
-				
-				// This is an exponential decrease. (Its not physically accurate but is more understandable to a mission maker - as it forces an accepted minimum interference at the edge of the jammer range)
-				_interference = _strength * (_K ^ (_Dist / _jammer_range));
+				_dist = (_distance MIN _jammer_range)/_jammer_range;
+				// Interference is inversely proportional to distance squared.
+				_interference = _strength * (exp (-2*_dist));
 
 			};
 		};
@@ -140,9 +154,9 @@ _jammer_loop_handler = {
 		player setVariable ["tf_sendingDistanceMultiplicator", (1/_interference)];
 
 		if(_debug) then {
-			deleteMarker "InterferenceMarker";
+			deleteMarkerLocal "InterferenceMarker";
 			//Position Marker
-			_debugMarker2 = createmarker ["InterferenceMarker", position player];
+			_debugMarker2 = createMarkerLocal ["InterferenceMarker", position player];
 			_debugMarker2 setMarkerShape "ICON";
 			_debugMarker2 setMarkerType "mil_triangle";
 			if(!isNull _closest_jammer) then {
