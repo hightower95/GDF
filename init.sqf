@@ -80,7 +80,6 @@ if hasInterface then {
 		_channel = _x;
 		_channel enableChannel [true, false];
 	} forEach [0, 1, 2, 3, 4, 5]; // [global, side, command, group, vehicle, direct]
-	player enableChannel
 	// TODO: but better- can this be done on the server?
 	// [] call f_fnc_createJIPFlag; // requires a marker called 'respawn_' + side (e.g. respawn_west, respawn_east, respawn_guer)
 	// [] spawn f_fnc_thirdPersonRestrict;
