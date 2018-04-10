@@ -1,0 +1,4 @@
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 3
+#define VERSION_SHA "2aeeb8e"
+#define VERSION_TAG "TFAR JMR"

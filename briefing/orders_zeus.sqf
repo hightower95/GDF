@@ -12,12 +12,6 @@
 // The code below fills the administration sub-section with info derived from the parameters
 // add manual text in the box below if required.
 
-_adm = player createDiaryRecord ["diary", ["Administration","
-<br/><font size='18' color='#FF7F00'>ADMINISTRATION</font>
-<br/>The following text has been auto-generated from the mission modules and parameters.
-<br/>
-"]];
-
 // NOTES: MISSION
 // The code below creates the mission sub-section of notes.
 
