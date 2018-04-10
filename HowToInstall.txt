@@ -26,6 +26,3 @@ If it does you have added the framework successfully.
 Now you may type 'git pull origin master'
 
 The framework will appear as if by magic.
-
-To update the framework type 'git pull origin master'
-
