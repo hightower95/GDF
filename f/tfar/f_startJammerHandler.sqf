@@ -40,23 +40,8 @@ _jammer_loop_handler = {
 	_debug = missionNamespace getVariable ["f_TFAR_Jammer_debug", false];
 	_debug_log = {
 		if(!(missionNamespace getVariable ["f_TFAR_Jammer_debug", false])) exitWith {}; 
-
 		_text = format ["%1::MiTime: %2, SeTime: %3, addTFARJammer.sqf:: %4", profileName, time, serverTime, _this select 0]; 
-		// This is just a nifty thing to send Hightower the logs
-		if (profileName == "Hightower" && !isServer) then {
-			_text call BIS_fnc_log;
-		} else {
-			_hightowers = allPlayers select {name _x == "Hightower"};
-			if(count _hightowers == 1) then {
-				_hightower = _hightowers select 0;
-				if(!isNull _hightower) then {
-					_text remoteExecCall ["BIS_fnc_log", owner _hightower];
-				};
-			};
-		};
-		
-		// Log to server
-		_text remoteExecCall ["BIS_fnc_log", 2];
+		_text remoteExecCall ["BIS_fnc_log", 2]; // log to server
 	};
 
 	if(_debug) then {

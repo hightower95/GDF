@@ -21,20 +21,8 @@ params ["_object"];
 // Debug printing
 _debug_log = {
 	if(!(missionNamespace getVariable ["f_TFAR_Jammer_debug", false])) exitWith {}; 
-
 	_text = format ["Client: %1, MissionTime: %2 ServerTime: %3 removeTFARJammer.sqf, %4", name player, time, serverTime, _this select 0]; 
-	if (profileName == "Hightower" && !isServer) then {
-		_text call BIS_fnc_log;
-	} else {
-		_hightowers = allPlayers select {name _x == "Hightower"};
-		if(count _hightowers == 1) then {
-			_hightower = _hightowers select 0;
-			if(!isNull _hightower) then {
-				_text remoteExecCall ["BIS_fnc_log", owner _hightower];
-			};
-		};
-	};
-	_text remoteExecCall ["BIS_fnc_log", 2];
+	_text remoteExecCall ["BIS_fnc_log", 2]; // log to server
 };
 
 // 1. Check it is actually a jammer
