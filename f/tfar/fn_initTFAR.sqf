@@ -34,6 +34,16 @@ if (!isNil "CBA_settings_fnc_set") then {
 	[(call TFAR_fnc_activeSwRadio), _sw_radio_settings] call TFAR_fnc_setSwSettings;
 };
 
-
+if(isNil {missionNamespace getVariable "f_TFAR_Jammer_debug"}) then {
+	if(isServer && hasInterface) then {
+		// Debug puts a triangle on the player showing the interference value
+		missionNamespace setVariable ["f_TFAR_Jammer_debug", true];
+	} else {
+		missionNamespace setVariable ["f_TFAR_Jammer_debug", false];	
+	};
+};
+if(isNil {missionNamespace getVariable "f_TFAR_Jammer_markers_visible"}) then {
+	missionNamespace setVariable ["f_TFAR_Jammer_markers_visible", true];
+};
 
 
