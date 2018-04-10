@@ -71,6 +71,8 @@ class F
 		file = "f\tfar";
 		class detectTFAR{requiredAddons[]={"task_force_radio"};};
 		class initTFAR{requiredAddons[]={"task_force_radio"};};
+		class addTFARJammer{requiredAddons[]={"task_force_radio"};};
+		class removeTFARJammer{requiredAddons[]={"task_force_radio"};};
 	};
 	class ace
 	{

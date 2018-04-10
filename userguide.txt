@@ -4,7 +4,7 @@ Greetings - welcome to the GD mission framework.
 
 The intent of the framework is to add a number of little details which enhance arma 3 gameplay, and reduce the time it takes to create missions.
 
-This framework consists of a number of parts, which are interlinked:
+This framework consists of a number of parts:
 
 - briefing
     : All of the text supporting the mission. Edit this to tell players what they need to do.
@@ -29,7 +29,7 @@ Various checks have been added to highlight to the user when code issues have be
 
 This framework creates a high degree of flexibility - and by default will try to take strain from the mission creator. It will automatically do loadouts / tfar frequencies. The mission creator must 'opt-out' of these scripts. This is easy to do - check the config folder for further instructions. If you are unsure - just ask. 
 
-To use the framework simply copy and paste the above listed files and folders into your mission folder. Ignore any .sqm files or other .sqf files. 
+To use the framework simply copy and paste the above listed files and folders into your mission folder. Ignore any .sqm files or other .sqf files which are not mentioned above. 
 
 If you find an issue or wish to alter the framework - let someone know!
 

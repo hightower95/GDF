@@ -52,7 +52,6 @@ if hasInterface then {
 	};
 	
 	if (!([] call f_fnc_detectACE)) then {
-		// [] spawn f_fnc_earplugs;
 		// [] call f_fnc_showPlayerNametag;
 		// Group map markers
 		// [] execVM "f\groupMarkers\f_setLocGroupMkr.sqf";				// F3 - Group Markers
