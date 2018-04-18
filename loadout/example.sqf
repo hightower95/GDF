@@ -48,7 +48,7 @@
     "", //glasse?
     [], //binoculars
     ["ItemMap","","tf_anprc152_1","ItemCompass","tf_microdagr","NVGoggles"] //map, gps, radio, compass, watch, nvgs
-]
+];
 
 // an option step before:
 [
@@ -111,9 +111,7 @@
     "", //glasse?
     [], //binoculars
     ["ItemMap","","tf_anprc152_1","ItemCompass","tf_microdagr","NVGoggles"] //map, gps, radio, compass, watch, nvgs
-]
-
-role -> map(item_names to faction_classes) -> palette -> global filters -> final loadout
+];
 
 
 
