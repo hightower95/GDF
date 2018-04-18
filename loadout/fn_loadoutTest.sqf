@@ -1,5 +1,6 @@
 
 #include "common.hpp"
 
-TEST_LOADOUT = test_loadout;
-OPTICS = getOptics(test_loadout);
+
+SAMPLE_LOADOUT = EMPTY_LOADOUT;
+// TEST_2 = test2;
