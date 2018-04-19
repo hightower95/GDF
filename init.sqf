@@ -75,7 +75,8 @@ if hasInterface then {
 	[] execVM "f\map\fn_drawAO.sqf";
 	[] execVM "f\briefing\fn_initBriefing.sqf";
 	[] execVM "loadout\fn_assignLoadout.sqf";
-	[] execVM "loadout\fn_loadoutTest.sqf";
+	// [] execVM "loadout\fn_loadoutTest.sqf";
+	[] call loadout_fnc_loadoutTest;
 	// Disable VON:
 	{
 		_channel = _x;
