@@ -54,12 +54,17 @@ The structure above can then be used by other scripts to apply it to a person.
 
 /* 1, 2 & 3 WEAPON */
 // Items
-#define WEAPON_TYPE LOADOUT_ITEM('weapon')
+#define WEAPON_CLASS LOADOUT_ITEM('class')
+#define WEAPON_MAG LOADOUT_ITEM('magazine')
+#define WEAPON_MAG_ALT LOADOUT_ITEM('alt magazine')
+#define WEAPON_META [WEAPON_CLASS, WEAPON_MAG, WEAPON_MAG_ALT]
+
+#define WEAPON_TYPE LOADOUT_COLLECTION('weapon', WEAPON_META)
 #define MUZZLE LOADOUT_ITEM('muzzle')
 #define SIDE_RAIL LOADOUT_ITEM('siderail')
 #define OPTICS LOADOUT_ITEM('optic')
-#define MAG LOADOUT_ITEM('magazine')
-#define MAG_2 LOADOUT_ITEM('secondary magazine')
+#define MAG LOADOUT_ITEM('magazine (loaded)')
+#define MAG_2 LOADOUT_ITEM('secondary magazine (loaded)')
 #define BIPOD LOADOUT_ITEM('bipod')
 // Collection
 #define WEAPON_STRUCTURE [WEAPON_TYPE, MUZZLE, SIDE_RAIL, OPTICS, MAG, MAG_2, BIPOD]
@@ -72,7 +77,7 @@ The structure above can then be used by other scripts to apply it to a person.
 /* 4 Uniform, 5 Chest Rig,6 Backpack */
 // Collection
 // uniforms etc are really simple. They have a 'type' and 'contents'
-#define EMPTY_CONTAINER_COLLECTION(x) [LOADOUT_ITEM(x+'_type'), LOADOUT_ITEM(x+'_contents')]
+#define EMPTY_CONTAINER_COLLECTION(x) [LOADOUT_ITEM(x+'_class'), LOADOUT_ITEM(x+'_contents')]
 
 #define UNIFORM EMPTY_CONTAINER_COLLECTION('uniform')
 #define CHEST_RIG EMPTY_CONTAINER_COLLECTION('chest rig')
