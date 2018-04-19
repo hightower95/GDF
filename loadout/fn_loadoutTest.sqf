@@ -4,6 +4,12 @@
 waitUntil {!isNull player};
 
 SAMPLE_LOADOUT = newLoadout('test');
+SAMPLE_LOADOUT2 = newLoadout('bravo'); 
+SAMPLE_LOADOUT3 = newLoadout('charlie'); 
+_weapon = getPrimaryWeapon(SAMPLE_LOADOUT);
+_weapon = setOpticOptions(_weapon, ["aco_red", "aco_green"]);
+SAMPLE_LOADOUT3 = setPrimaryWeapon(SAMPLE_LOADOUT3, _weapon);
+
 systemChat "loadout script ran";
 // TEST_2 = test2;
 
