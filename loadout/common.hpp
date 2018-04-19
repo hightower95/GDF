@@ -43,11 +43,18 @@ The structure above can then be used by other scripts to apply it to a person.
 #ifdef DEBUG_LOADOUTS
 	#define _newLoadoutItem(x) [x, []]
 	#define _newLoadoutCollection(x,y) [x, y]
-	#define GET_ITEM(x) (x select 1)
+	#define getItems(x) (x select 1)
+	#define getItemsByIndex(x, index) ((getItems(x)) select index)
+	#define getItemOptions(x, index) (getItems((getItemsByIndex(x, index))))
+
+	#define setItems(x, value) (x set[1, value])
+	#define setItemOptions(x, index, options) (setItems((getItemsByIndex(x, index)), options))
 #else
 	#define _newLoadoutItem(x) []
 	#define _newLoadoutCollection(x,y) y
-	#define GET_ITEM(x) x 
+	#define getItems(x) x 
+	#define getItemsByIndex(x, index) (x select index)
+	#define getItemOptions(x, index) (getItems((getItemsByIndex(x, index))))
 #endif
 
 #define _newLoadout(x,y) [x, y]
@@ -55,21 +62,48 @@ The structure above can then be used by other scripts to apply it to a person.
 /* *** SECTION: Loadout collection definitions *** */
 
 /* 1, 2 & 3 WEAPON */
-// Items
+#define PRIMARY_WEAPON_INDEX 0 // Position in 'LOADOUT'
+#define LAUNCHER_WEAPON_INDEX 1
+#define SECONDARY_WEAPON_INDEX 2
+#define getPrimaryWeapon(loadout) (getItemsByIndex(loadout, PRIMARY_WEAPON_INDEX))
+#define getLauncher(loadout) (getItemsByIndex(loadout, LAUNCHER_WEAPON_INDEX))
+#define getSecondaryWeapon(loadout) (getItemsByIndex(loadout, SECONDARY_WEAPON_INDEX))
+// Weapon has Weapon Meta, to associate the magazines with the weapon class.
+#define WEAPON_CLASS_INDEX 0 // Position in 'WEAPON_META WEAPON LOADOUT'
 #define WEAPON_CLASS _newLoadoutItem('class')
+#define WEAPON_MAG_INDEX 1
 #define WEAPON_MAG _newLoadoutItem('magazine')
+#define WEAPON_MAG_ALT_INDEX 2
 #define WEAPON_MAG_ALT _newLoadoutItem('alt magazine')
 #define WEAPON_META [WEAPON_CLASS, WEAPON_MAG, WEAPON_MAG_ALT]
 
 #define WEAPON_TYPE _newLoadoutCollection('weapon', WEAPON_META)
-#define MUZZLE _newLoadoutItem('muzzle')
-#define SIDE_RAIL _newLoadoutItem('siderail')
-#define OPTICS _newLoadoutItem('optic')
-#define MAG _newLoadoutItem('magazine (loaded)')
-#define MAG_2 _newLoadoutItem('secondary magazine (loaded)')
-#define BIPOD _newLoadoutItem('bipod')
+#define WEAPON_TYPE_INDEX 0 // Position in 'WEAPON LOADOUT'
+
+#define MUZZLE_ITEM _newLoadoutItem('muzzle')
+#define MUZZLE_INDEX 1
+
+#define SIDE_RAIL_ITEM _newLoadoutItem('siderail')
+#define SIDE_RAIL_INDEX 2
+#define getSideRailOptions(w) getItemOptions(w, SIDE_RAIL_INDEX)
+
+#define OPTICS_ITEM _newLoadoutItem('optic')
+#define OPTICS_INDEX 3
+#define getOpticsOptions(w) getItemOptions(w, OPTICS_INDEX)
+#define setOpticsOptions(w, options) setItemOptions(w, OPTICS_INDEX, options)
+
+#define MAG_ITEM _newLoadoutItem('magazine (loaded)')
+#define MAG_INDEX 4
+#define getMagazineOptions(w) getItemOptions(w, MAG_INDEX)
+
+#define MAG_2_ITEM _newLoadoutItem('secondary magazine (loaded)')
+#define MAG_2_INDEX 5
+
+#define BIPOD_ITEM _newLoadoutItem('bipod')
+#define BIPOD_INDEX 6
+
 // Collection
-#define WEAPON_STRUCTURE [WEAPON_TYPE, MUZZLE, SIDE_RAIL, OPTICS, MAG, MAG_2, BIPOD]
+#define WEAPON_STRUCTURE [WEAPON_TYPE, MUZZLE_ITEM, SIDE_RAIL_ITEM, OPTICS_ITEM, MAG_ITEM, MAG_2_ITEM, BIPOD_ITEM]
 #define EMPTY_WEAPON_COLLECTION(x) _newLoadoutCollection('weapon_'+x, WEAPON_STRUCTURE)
 
 #define PRIMARY_WEAPON EMPTY_WEAPON_COLLECTION('primary')
@@ -81,47 +115,35 @@ The structure above can then be used by other scripts to apply it to a person.
 // uniforms etc are really simple. They have a 'type' and 'contents'
 #define EMPTY_CONTAINER_COLLECTION(x) [_newLoadoutItem(x+'_class'), _newLoadoutItem(x+'_contents')]
 
-#define UNIFORM EMPTY_CONTAINER_COLLECTION('uniform')
-#define CHEST_RIG EMPTY_CONTAINER_COLLECTION('chest rig')
-#define BACKPACK EMPTY_CONTAINER_COLLECTION('backpack')
+#define UNIFORM_ITEM EMPTY_CONTAINER_COLLECTION('uniform')
+#define CHEST_RIG_ITEM EMPTY_CONTAINER_COLLECTION('chest rig')
+#define BACKPACK_ITEM EMPTY_CONTAINER_COLLECTION('backpack')
 
 /* 7 Helmet */
-#define HELMET _newLoadoutItem('helmet')
+#define HELMET_ITEM _newLoadoutItem('helmet')
 
 /* 8 Glasses */
-#define GLASSES _newLoadoutItem('glasses')
+#define GLASSES_ITEM _newLoadoutItem('glasses')
 
 /* 9 Binos */
-#define BINOS EMPTY_WEAPON_COLLECTION('binos')
+#define BINOS_ITEM EMPTY_WEAPON_COLLECTION('binos')
 
 /* 10 Anicilliaries */
 // items
-#define MAP _newLoadoutItem('map')
-#define GPS _newLoadoutItem('gps')
-#define RADIO _newLoadoutItem('radio')
-#define COMPASS _newLoadoutItem('compass')
-#define WATCH _newLoadoutItem('watch')
-#define NVGS _newLoadoutItem('nvgs')
+#define MAP_ITEM _newLoadoutItem('map')
+#define GPS_ITEM _newLoadoutItem('gps')
+#define RADIO_ITEM _newLoadoutItem('radio')
+#define COMPASS_ITEM _newLoadoutItem('compass')
+#define WATCH_ITEM _newLoadoutItem('watch')
+#define NVGS_ITEM _newLoadoutItem('nvgs')
 // collection
-#define ANCILLIARY_STRUCTURE [MAP, GPS, RADIO, COMPASS, WATCH, NVGS]
+#define ANCILLIARY_STRUCTURE [MAP_ITEM, GPS_ITEM, RADIO_ITEM, COMPASS_ITEM, WATCH_ITEM, NVGS_ITEM]
 #define ANCILLIARIES _newLoadoutCollection('ancilliaries', ANCILLIARY_STRUCTURE) 
 
-#define LOADOUT_STRUCTURE [PRIMARY_WEAPON, LAUNCHER_WEAPON, SECONDARY_WEAPON, UNIFORM, CHEST_RIG, BACKPACK, HELMET, GLASSES, ANCILLIARIES]
+#define LOADOUT_STRUCTURE [PRIMARY_WEAPON, LAUNCHER_WEAPON, SECONDARY_WEAPON, UNIFORM_ITEM, CHEST_RIG_ITEM, BACKPACK_ITEM, HELMET_ITEM, GLASSES_ITEM, ANCILLIARIES]
 #define EMPTY_LOADOUT _newLoadoutCollection('loadout', LOADOUT_STRUCTURE)
 #define newLoadout(name) _newLoadout(name, LOADOUT_STRUCTURE)
-
-// Collection Accessors
-#define PRIMARY_WEAPON_INDEX 0
-
-#define OPTICS_INDEX 4
-
-// Level 0
-#define getPrimaryWeapon(loadout) (loadout select PRIMARY_WEAPON_INDEX)
-#define setPrimaryWeapon(loadout, weapon) (loadout set[PRIMARY_WEAPON_INDEX, weapon])
-#define getOpticOptions(weapon) (weapon select OPTICS_INDEX)
-#define setOpticOptions(weapon, options) (weapon set [OPTICS_INDEX, options])
-#define addOpticOption(weapon, option) (setOpticOptions(weapon, getOpticOptions(weapon) pushBack option))
-
+#define getLoadoutCollections(loadout) (loadout select 1) // Loadout structure is [NAME, [COLLECTIONS]]. 
 /*
 #define getLauncher(loadout) (loadout select 1)
 #define getSecondaryWeapon(loadout) (loadout select 0)
