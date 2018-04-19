@@ -7,11 +7,9 @@ SAMPLE_LOADOUT = newLoadout('test');
 SAMPLE_LOADOUT2 = newLoadout('bravo'); 
 SAMPLE_LOADOUT3 = newLoadout('charlie'); 
 WEAPON = getPrimaryWeapon(SAMPLE_LOADOUT);
+_options = ["aco_red", "aco_green"];
+setOpticsOptions((WEAPON), _options);
 MY_OPTICS = getOpticsOptions(WEAPON);
-XXXYYHH = setOpticsOptions((WEAPON), ["aco_red", "aco_green"]);
-// SAMPLE_LOADOUT3 = WEAPON(SAMPLE_LOADOUT3, _weapon);
-// FUNCT = setOpticsOptions(WEAPON, ["aco_red", "aco_green"]);
-
 
 systemChat "loadout script ran";
 // TEST_2 = test2;

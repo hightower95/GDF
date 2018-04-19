@@ -38,7 +38,7 @@ Rifle = [
 
 The structure above can then be used by other scripts to apply it to a person.
 */
-#define DEBUG_LOADOUTS true
+//#define DEBUG_LOADOUTS true
 
 #ifdef DEBUG_LOADOUTS
 	#define _newLoadoutItem(x) [x, []]
@@ -46,8 +46,9 @@ The structure above can then be used by other scripts to apply it to a person.
 	#define getItems(x) (x select 1)
 	#define getItemsByIndex(x, index) ((getItems(x)) select index)
 	#define getItemOptions(x, index) (getItems((getItemsByIndex(x, index))))
+	#define unpackLoadoutItems(x) (x)
 
-	#define setItems(x, value) (x set[1, value])
+	#define setItem(x, value) (x set[1, value])
 	#define setItemOptions(x, index, options) (setItems((getItemsByIndex(x, index)), options))
 #else
 	#define _newLoadoutItem(x) []
@@ -55,6 +56,10 @@ The structure above can then be used by other scripts to apply it to a person.
 	#define getItems(x) x 
 	#define getItemsByIndex(x, index) (x select index)
 	#define getItemOptions(x, index) (getItems((getItemsByIndex(x, index))))
+	#define unpackLoadoutItems(x) (x select 1)
+
+	#define setItem(x, value) (x = value)
+	#define setItemOptions(x, index, options) (x set[index, options])
 #endif
 
 #define _newLoadout(x,y) [x, y]
@@ -65,7 +70,7 @@ The structure above can then be used by other scripts to apply it to a person.
 #define PRIMARY_WEAPON_INDEX 0 // Position in 'LOADOUT'
 #define LAUNCHER_WEAPON_INDEX 1
 #define SECONDARY_WEAPON_INDEX 2
-#define getPrimaryWeapon(loadout) (getItemsByIndex(loadout, PRIMARY_WEAPON_INDEX))
+#define getPrimaryWeapon(loadout) (getItemsByIndex(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX))
 #define getLauncher(loadout) (getItemsByIndex(loadout, LAUNCHER_WEAPON_INDEX))
 #define getSecondaryWeapon(loadout) (getItemsByIndex(loadout, SECONDARY_WEAPON_INDEX))
 // Weapon has Weapon Meta, to associate the magazines with the weapon class.
