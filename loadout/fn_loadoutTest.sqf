@@ -10,7 +10,8 @@ WEAPON = getPrimaryWeapon(SAMPLE_LOADOUT);
 _options = ["aco_red", "aco_green"];
 setOpticsOptions((WEAPON), _options);
 MY_OPTICS = getOpticsOptions(WEAPON);
-
+setPrimaryWeapon(SAMPLE_LOADOUT2, WEAPON);
+WEAPON2 = getPrimaryWeapon(SAMPLE_LOADOUT2);
 systemChat "loadout script ran";
 // TEST_2 = test2;
 

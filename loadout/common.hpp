@@ -49,7 +49,7 @@ The structure above can then be used by other scripts to apply it to a person.
 	#define unpackLoadoutItems(x) (x)
 
 	#define setItem(x, value) (x set[1, value])
-	#define setItemOptions(x, index, options) (setItems((getItemsByIndex(x, index)), options))
+	#define setItemOptions(x, index, options) (setItem((getItemsByIndex(x, index)), options))
 #else
 	#define _newLoadoutItem(x) []
 	#define _newLoadoutCollection(x,y) y
@@ -71,6 +71,7 @@ The structure above can then be used by other scripts to apply it to a person.
 #define LAUNCHER_WEAPON_INDEX 1
 #define SECONDARY_WEAPON_INDEX 2
 #define getPrimaryWeapon(loadout) (getItemsByIndex(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX))
+#define setPrimaryWeapon(loadout, w) (setItemOptions(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX, w))
 #define getLauncher(loadout) (getItemsByIndex(loadout, LAUNCHER_WEAPON_INDEX))
 #define getSecondaryWeapon(loadout) (getItemsByIndex(loadout, SECONDARY_WEAPON_INDEX))
 // Weapon has Weapon Meta, to associate the magazines with the weapon class.
