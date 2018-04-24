@@ -38,7 +38,7 @@ Rifle = [
 
 The structure above can then be used by other scripts to apply it to a person.
 */
-//#define DEBUG_LOADOUTS true
+#define DEBUG_LOADOUTS true
 
 #ifdef DEBUG_LOADOUTS
 	#define _newLoadoutItem(x) [x, []]
@@ -58,7 +58,7 @@ The structure above can then be used by other scripts to apply it to a person.
 	#define getItemOptions(x, index) (getItems((getItemsByIndex(x, index))))
 	#define unpackLoadoutItems(x) (x select 1)
 
-	#define setItem(x, value) (x = value)
+	//#define setItem(x, value) (x = value)
 	#define setItemOptions(x, index, options) (x set[index, options])
 #endif
 
@@ -71,7 +71,7 @@ The structure above can then be used by other scripts to apply it to a person.
 #define LAUNCHER_WEAPON_INDEX 1
 #define SECONDARY_WEAPON_INDEX 2
 #define getPrimaryWeapon(loadout) (getItemsByIndex(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX))
-#define setPrimaryWeapon(loadout, w) (setItemOptions(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX, w))
+#define setPrimaryWeapon(loadout, w) (setItemOptions(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX, getItems(w)))
 #define getLauncher(loadout) (getItemsByIndex(loadout, LAUNCHER_WEAPON_INDEX))
 #define getSecondaryWeapon(loadout) (getItemsByIndex(loadout, SECONDARY_WEAPON_INDEX))
 // Weapon has Weapon Meta, to associate the magazines with the weapon class.
@@ -96,7 +96,7 @@ The structure above can then be used by other scripts to apply it to a person.
 #define OPTICS_ITEM _newLoadoutItem('optic')
 #define OPTICS_INDEX 3
 #define getOpticsOptions(w) getItemOptions(w, OPTICS_INDEX)
-#define setOpticsOptions(w, options) setItemOptions(w, OPTICS_INDEX, options)
+#define setOpticsOptions(w, options) (setItemOptions(w, OPTICS_INDEX, options))
 
 #define MAG_ITEM _newLoadoutItem('magazine (loaded)')
 #define MAG_INDEX 4

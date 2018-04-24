@@ -8,10 +8,36 @@ SAMPLE_LOADOUT2 = newLoadout('bravo');
 SAMPLE_LOADOUT3 = newLoadout('charlie'); 
 WEAPON = getPrimaryWeapon(SAMPLE_LOADOUT);
 _options = ["aco_red", "aco_green"];
-setOpticsOptions((WEAPON), _options);
+setOpticsOptions(WEAPON, _options);
 MY_OPTICS = getOpticsOptions(WEAPON);
 setPrimaryWeapon(SAMPLE_LOADOUT2, WEAPON);
-WEAPON2 = getPrimaryWeapon(SAMPLE_LOADOUT2);
+
+WEAPONX = getPrimaryWeapon(SAMPLE_LOADOUT2);
+// MY_OPTICS = getOpticsOptions(WEAPON2);
+
+_options2 = ["lrps"];
+MY_OPTICS2 = getOpticsOptions(WEAPONX);
+setOpticsOptions(WEAPONX, _options2);
+
+
+// sample loadout 
+REAL_LOADOUT = newLoadout('rifleman');
+_primary_weapon = PRIMARY_WEAPON;
+
+_light_rifle = ["mx", "6.5", "6.5tracer"];
+_muzzle = ["muzzle"];
+_side_rail = ["light", "laser light", "laser"];
+_optics = ["aco_red", "aco_green"];
+_mag = _light_rifle select 1;
+_bipod = ["bipod"];
+
+setOpticsOptions(_primary_weapon, _optics);
+
+setPrimaryWeapon(REAL_LOADOUT, _primary_weapon);
+
+
+
+
 systemChat "loadout script ran";
 // TEST_2 = test2;
 
