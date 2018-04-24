@@ -24,19 +24,33 @@ setOpticsOptions(WEAPONX, _options2);
 REAL_LOADOUT = newLoadout('rifleman');
 _primary_weapon = PRIMARY_WEAPON;
 
-_light_rifle = ["mx", "6.5", "6.5tracer"];
-_muzzle = ["muzzle"];
-_side_rail = ["light", "laser light", "laser"];
+_light_rifle = ["srifle_GM6_F", "5Rnd_127x108_Mag", "5Rnd_127x108_APDS_Mag"];
+_med_rifle = ["mx", "6.5", "6.5tracer"];
+_rifles = [_light_rifle, _med_rifle];
+_muzzle = ["muzzle_snds_B"];
+_side_rail = ["light", "laser light", "acc_pointer_IR"];
 _optics = ["aco_red", "aco_green"];
-_mag = _light_rifle select 1;
 _bipod = ["bipod"];
+_backpack = ["B_Carryall_ocamo"];
 
+setWeaponOptions(_primary_weapon, _rifles);
 setOpticsOptions(_primary_weapon, _optics);
+setMuzzleOptions(_primary_weapon, _muzzle);
+setSideRailOptions(_primary_weapon, _side_rail);
+setBipodOptions(_primary_weapon, _bipod;)
+
 
 setPrimaryWeapon(REAL_LOADOUT, _primary_weapon);
+setBackpackOptions(REAL_LOADOUT, _backpack);
+
+squashPalette = {
+	params["_loadoutPalette"];
+};
 
 
-
+doEquip = {
+	params["_unit", "_loadout"];
+};
 
 systemChat "loadout script ran";
 // TEST_2 = test2;

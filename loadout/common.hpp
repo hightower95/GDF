@@ -65,15 +65,19 @@ The structure above can then be used by other scripts to apply it to a person.
 #define _newLoadout(x,y) [x, y]
 
 /* *** SECTION: Loadout collection definitions *** */
+#define setCollectionItem(loadout, index, collection) (setItemOptions(unpackLoadoutItems(loadout), index, getItems(collection)))
+#define getCollectionItem(loadout, index) (getItemsByIndex(unpackLoadoutItems(loadout, index))
 
 /* 1, 2 & 3 WEAPON */
 #define PRIMARY_WEAPON_INDEX 0 // Position in 'LOADOUT'
 #define LAUNCHER_WEAPON_INDEX 1
 #define SECONDARY_WEAPON_INDEX 2
-#define getPrimaryWeapon(loadout) (getItemsByIndex(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX))
-#define setPrimaryWeapon(loadout, w) (setItemOptions(unpackLoadoutItems(loadout), PRIMARY_WEAPON_INDEX, getItems(w)))
-#define getLauncher(loadout) (getItemsByIndex(loadout, LAUNCHER_WEAPON_INDEX))
-#define getSecondaryWeapon(loadout) (getItemsByIndex(loadout, SECONDARY_WEAPON_INDEX))
+#define getPrimaryWeapon(loadout) getCollectionItem(loadout, PRIMARY_WEAPON_INDEX)
+#define setPrimaryWeapon(loadout, w) setCollectionItem(loadout, PRIMARY_WEAPON_INDEX, w)
+#define getLauncher(loadout) getCollectionItem(loadout, LAUNCHER_WEAPON_INDEX)
+#define setLauncher(loadout, w) setCollectionItem(loadout, LAUNCHER_WEAPON_INDEX, w)
+#define getSecondaryWeapon(loadout) getCollectionItem(loadout, SECONDARY_WEAPON_INDEX)
+#define setSecondaryWeapon(loadout, w) setCollectionItem(loadout, SECONDARY_WEAPON_INDEX, w)
 // Weapon has Weapon Meta, to associate the magazines with the weapon class.
 #define WEAPON_CLASS_INDEX 0 // Position in 'WEAPON_META WEAPON LOADOUT'
 #define WEAPON_CLASS _newLoadoutItem('class')
@@ -85,28 +89,39 @@ The structure above can then be used by other scripts to apply it to a person.
 
 #define WEAPON_TYPE _newLoadoutCollection('weapon', WEAPON_META)
 #define WEAPON_TYPE_INDEX 0 // Position in 'WEAPON LOADOUT'
+#define newWeaponOption(_class, _mag_options, _tracer_options) [_class, _mag_options, _tracer_options];
+#define setWeaponOptions(w, options) setItemOptions(w, WEAPON_TYPE_INDEX, options) // Think this is going to be an issue?
+#define getWeaponOptions(w) getItemOptions(w, WEAPON_TYPE_INDEX)
 
 #define MUZZLE_ITEM _newLoadoutItem('muzzle')
 #define MUZZLE_INDEX 1
+#define getMuzzleOptions(w) getItemOptions(w, MUZZLE_INDEX)
+#define setMuzzleOptions(w, options) setItemOptions(w, MUZZLE_INDEX, options)
 
 #define SIDE_RAIL_ITEM _newLoadoutItem('siderail')
 #define SIDE_RAIL_INDEX 2
 #define getSideRailOptions(w) getItemOptions(w, SIDE_RAIL_INDEX)
+#define setSideRailOptions(w, options) setItemOptions(w, SIDE_RAIL_INDEX, options)
 
 #define OPTICS_ITEM _newLoadoutItem('optic')
 #define OPTICS_INDEX 3
 #define getOpticsOptions(w) getItemOptions(w, OPTICS_INDEX)
-#define setOpticsOptions(w, options) (setItemOptions(w, OPTICS_INDEX, options))
+#define setOpticsOptions(w, options) setItemOptions(w, OPTICS_INDEX, options)
 
 #define MAG_ITEM _newLoadoutItem('magazine (loaded)')
 #define MAG_INDEX 4
-#define getMagazineOptions(w) getItemOptions(w, MAG_INDEX)
+#define getLoadedMagazineOptions(w) getItemOptions(w, MAG_INDEX)
+#define setLoadedMagazineOptions(w, options) setItemOptions(w, MAG_INDEX, options)
 
 #define MAG_2_ITEM _newLoadoutItem('secondary magazine (loaded)')
 #define MAG_2_INDEX 5
+#define getLoadedMagazine2Options(w) getItemOptions(w, MAG_2_INDEX)
+#define setLoadedMagazine2Options(w, options) setItemOptions(w, MAG_2_INDEX, options)
 
 #define BIPOD_ITEM _newLoadoutItem('bipod')
 #define BIPOD_INDEX 6
+#define getBipodOptions(w) getItemOptions(w, BIPOD_INDEX)
+#define setBipodOptions(w, options) setItemOptions(w, BIPOD_INDEX, options)
 
 // Collection
 #define WEAPON_STRUCTURE [WEAPON_TYPE, MUZZLE_ITEM, SIDE_RAIL_ITEM, OPTICS_ITEM, MAG_ITEM, MAG_2_ITEM, BIPOD_ITEM]
@@ -122,8 +137,20 @@ The structure above can then be used by other scripts to apply it to a person.
 #define EMPTY_CONTAINER_COLLECTION(x) [_newLoadoutItem(x+'_class'), _newLoadoutItem(x+'_contents')]
 
 #define UNIFORM_ITEM EMPTY_CONTAINER_COLLECTION('uniform')
+#define UNIFORM_INDEX 4
+#define getUniform(loadout) getCollectionItem(loadout, UNIFORM_INDEX)
+#define setUniform(loadout, w) setCollectionItem(loadout, UNIFORM_INDEX, w)
+
 #define CHEST_RIG_ITEM EMPTY_CONTAINER_COLLECTION('chest rig')
+#define CHEST_RIG_INDEX 5
+#define getChestRig(loadout) getCollectionItem(loadout, CHEST_RIG_INDEX)
+#define setChestRig(loadout, w) setCollectionItem(loadout, CHEST_RIG_INDEX, w)
+
 #define BACKPACK_ITEM EMPTY_CONTAINER_COLLECTION('backpack')
+#define BACKPACK_INDEX 6
+#define getBackpackOptions(loadout) getCollectionItem(loadout, BACKPACK_INDEX)
+#define setBackpackOptions(loadout, w) setCollectionItem(loadout, BACKPACK_INDEX, w)
+
 
 /* 7 Helmet */
 #define HELMET_ITEM _newLoadoutItem('helmet')
